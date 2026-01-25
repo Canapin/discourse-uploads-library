@@ -1,8 +1,6 @@
-// Container for the entire admin page
 .admin-uploads-container {
   padding: 10px;
 
-  // The Top Filter Bar
   .admin-controls {
     display: flex;
     flex-wrap: wrap;
@@ -22,7 +20,6 @@
         color: var(--primary-high);
       }
 
-      // Ensure the user selector and date picker inputs are consistent
       .ac-user,
       .date-picker-input {
         width: 100%;
@@ -30,7 +27,6 @@
     }
   }
 
-  // The Gallery Grid
   .uploads-gallery {
     display: flex;
     flex-wrap: wrap;
@@ -38,7 +34,6 @@
     justify-content: flex-start;
   }
 
-  // Individual File Card
   .upload-card {
     width: 140px;
     text-align: center;
@@ -65,14 +60,12 @@
       overflow: hidden;
       margin-bottom: 8px;
 
-      // The Image Thumbnail
       .upload-thumb {
         width: 100%;
         height: 100%;
-        object-fit: cover; // Maintains aspect ratio by cropping to center
+        object-fit: cover;
       }
 
-      // Non-image file placeholder
       .file-placeholder {
         height: 100%;
         display: flex;
@@ -86,12 +79,9 @@
           font-size: 14px;
           text-transform: uppercase;
         }
-
-        // Optional: you could add a d-icon via CSS content if you want icons here
       }
     }
 
-    // Truncated filename below the card
     .file-name {
       font-size: var(--font-down-1);
       color: var(--primary);
@@ -102,7 +92,6 @@
     }
   }
 
-  // Empty State
   .no-results {
     padding: 60px;
     color: var(--primary-medium);

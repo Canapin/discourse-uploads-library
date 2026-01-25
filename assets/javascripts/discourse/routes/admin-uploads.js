@@ -14,7 +14,6 @@ export default class AdminUploadsRoute extends Route {
 
   setupController(controller, model) {
     super.setupController(controller, model);
-    // Populate the tracked uploads list so the component sees data immediately
     controller.uploads = [...(model.uploads || [])];
     controller.canLoadMore = model.load_more;
   }
