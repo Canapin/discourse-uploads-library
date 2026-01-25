@@ -1,0 +1,114 @@
+// Container for the entire admin page
+.admin-uploads-container {
+  padding: 10px;
+
+  // The Top Filter Bar
+  .admin-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    background: var(--primary-very-low);
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid var(--primary-low);
+    border-radius: 8px;
+    align-items: baseline;
+
+    .control-unit {
+      label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+        color: var(--primary-high);
+      }
+
+      // Ensure the user selector and date picker inputs are consistent
+      .ac-user,
+      .date-picker-input {
+        width: 100%;
+      }
+    }
+  }
+
+  // The Gallery Grid
+  .uploads-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: flex-start;
+  }
+
+  // Individual File Card
+  .upload-card {
+    width: 140px;
+    text-align: center;
+    background: var(--secondary);
+    padding: 10px;
+    border: 1px solid var(--primary-low);
+    border-radius: 4px;
+    transition:
+      transform 0.1s ease-in-out,
+      box-shadow 0.1s ease-in-out;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-dropdown);
+      border-color: var(--tertiary);
+    }
+
+    .preview-link {
+      display: block;
+      height: 120px;
+      width: 100%;
+      background: var(--primary-very-low);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 8px;
+
+      // The Image Thumbnail
+      .upload-thumb {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; // Maintains aspect ratio by cropping to center
+      }
+
+      // Non-image file placeholder
+      .file-placeholder {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-medium);
+
+        .extension {
+          font-weight: bold;
+          font-size: 14px;
+          text-transform: uppercase;
+        }
+
+        // Optional: you could add a d-icon via CSS content if you want icons here
+      }
+    }
+
+    // Truncated filename below the card
+    .file-name {
+      font-size: var(--font-down-1);
+      color: var(--primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 0 4px;
+    }
+  }
+
+  // Empty State
+  .no-results {
+    padding: 60px;
+    color: var(--primary-medium);
+    text-align: center;
+    width: 100%;
+    font-style: italic;
+    border: 1px dashed var(--primary-low);
+  }
+}

@@ -1,0 +1,4 @@
+plugins:
+  uploads_browser_enabled:
+    default: true
+    client: true

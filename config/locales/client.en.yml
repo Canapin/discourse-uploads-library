@@ -1,0 +1,10 @@
+en:
+  js:
+    uploads_browser:
+      title: "Latest Uploads"
+      user_label: "User:"
+      user_search_placeholder: "Search for a user..."
+      from_label: "From:"
+      to_label: "To:"
+      clear_filters: "Clear Filters"
+      no_results: "No uploads found for these filters."
