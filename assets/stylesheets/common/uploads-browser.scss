@@ -35,6 +35,7 @@
   }
 
   .upload-card {
+    cursor: pointer;
     width: 140px;
     text-align: center;
     background: var(--secondary);
@@ -99,5 +100,26 @@
     width: 100%;
     font-style: italic;
     border: 1px dashed var(--primary-low);
+  }
+}
+
+.upload-usage-modal {
+  .upload-usage-list {
+    list-style: none;
+    padding: 0;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .d-icon-envelope {
+        color: var(--tertiary);
+      }
+
+      .d-icon-comment {
+        color: var(--tertiary);
+      }
+    }
   }
 }

@@ -23,17 +23,31 @@ class UploadsBrowserController < ApplicationController
 
     limit = 30
     offset = params[:offset].to_i || 0
-    uploads = uploads.offset(offset).limit(limit)
+    uploads = uploads.offset(offset).limit(limit).includes(posts: :topic)
 
     data =
       uploads.map do |u|
         is_image = u.width.present? && u.height.present?
+
+        # Map the posts into a clean hash for the frontend
+        posts_data =
+          u.posts.map do |p|
+            {
+              id: p.id,
+              url: p.url,
+              post_number: p.post_number,
+              topic_title: p.topic&.title,
+              is_pm: p.topic&.private_message?,
+            }
+          end
+
         {
           id: u.id,
           url: is_image ? u.url : nil,
-          original_url: u.short_path,
+          original_url: u.url,
           name: u.original_filename,
           is_image: is_image,
+          posts: posts_data,
         }
       end
 

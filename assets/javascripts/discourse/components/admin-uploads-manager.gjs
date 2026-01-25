@@ -1,5 +1,7 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
+import { on } from "@ember/modifier";
+import { fn } from "@ember/helper";
 import { i18n } from "discourse-i18n";
 import { hash } from "@ember/helper";
 import dButton from "discourse/components/d-button";
@@ -8,8 +10,22 @@ import userChooser from "select-kit/components/email-group-user-chooser";
 import dIcon from "discourse-common/helpers/d-icon";
 import didInsert from "@ember/render-modifiers/modifiers/did-insert";
 import willDestroy from "@ember/render-modifiers/modifiers/will-destroy";
+import { service } from "@ember/service";
+import UploadUsageModal from "discourse/plugins/uploads-browser/discourse/components/modal/upload-usage";
 
 export default class AdminUploadsManager extends Component {
+  @service modal;
+
+  @action
+  showUsage(upload, event) {
+    if (upload.posts && upload.posts.length > 0) {
+      event.preventDefault();
+      this.modal.show(UploadUsageModal, {
+        model: { posts: upload.posts },
+      });
+    }
+  }
+
   get showClearButton() {
     return this.args.username || this.args.fromDate || this.args.toDate;
   }
@@ -33,7 +49,11 @@ export default class AdminUploadsManager extends Component {
   @action
   setupInfiniteScroll() {
     window.addEventListener("scroll", this.onScroll);
-    this.checkNeedsMoreContent();
+    queueMicrotask(() => {
+      if (!this.isDestroyed && !this.isDestroying) {
+        this.checkNeedsMoreContent();
+      }
+    });
   }
 
   @action
@@ -97,6 +117,7 @@ export default class AdminUploadsManager extends Component {
 
         {{#if this.showClearButton}}
           <div class="control-unit">
+            <label>&nbsp;</label>
             <dButton
               @action={{@onClear}}
               @label="js.uploads_browser.clear_filters"
@@ -109,13 +130,8 @@ export default class AdminUploadsManager extends Component {
 
       <div class="uploads-gallery">
         {{#each @uploads as |upload|}}
-          <div class="upload-card">
-            <a
-              href={{upload.original_url}}
-              target="_blank"
-              class="preview-link"
-              rel="noopener noreferrer"
-            >
+          <div class="upload-card" {{on "click" (fn this.showUsage upload)}}>
+            <a href={{upload.original_url}} class="preview-link">
               {{#if upload.is_image}}
                 <img src={{upload.url}} class="upload-thumb" loading="lazy" />
               {{else}}

@@ -8,3 +8,7 @@ en:
       to_label: "To:"
       clear_filters: "Clear Filters"
       no_results: "No uploads found for these filters."
+      usage_modal_title: "File Usage"
+      is_pm: "Personal Message"
+      is_post: "Regular Post"
+      no_posts_found: "This file is not linked to any active posts."
