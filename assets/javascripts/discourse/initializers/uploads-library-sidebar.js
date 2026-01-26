@@ -1,13 +1,13 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
 
 export default {
-  name: "uploads-browser-sidebar",
+  name: "uploads-library-sidebar",
   initialize() {
     withPluginApi("1.31.0", (api) => {
       api.addAdminSidebarSectionLink("security", {
-        name: "latest-uploads",
+        name: "uploads-library",
         route: "admin.uploads",
-        label: "js.uploads_browser.title",
+        label: "js.uploads_library.title",
         icon: "images",
       });
     });

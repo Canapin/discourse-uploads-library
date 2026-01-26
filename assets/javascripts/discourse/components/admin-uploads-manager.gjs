@@ -11,19 +11,23 @@ import dIcon from "discourse-common/helpers/d-icon";
 import didInsert from "@ember/render-modifiers/modifiers/did-insert";
 import willDestroy from "@ember/render-modifiers/modifiers/will-destroy";
 import { service } from "@ember/service";
-import UploadUsageModal from "discourse/plugins/uploads-browser/discourse/components/modal/upload-usage";
+import UploadUsageModal from "discourse/plugins/discourse-uploads-library/discourse/components/modal/upload-usage";
 
 export default class AdminUploadsManager extends Component {
   @service modal;
 
   @action
   showUsage(upload, event) {
-    if (upload.posts && upload.posts.length > 0) {
-      event.preventDefault();
-      this.modal.show(UploadUsageModal, {
-        model: { posts: upload.posts },
-      });
-    }
+    event.preventDefault();
+
+    this.modal.show(UploadUsageModal, {
+      model: { posts: upload.posts || [] },
+    });
+  }
+
+  @action
+  stopPropagation(event) {
+    event.stopPropagation();
   }
 
   get showClearButton() {
@@ -88,30 +92,30 @@ export default class AdminUploadsManager extends Component {
 
   <template>
     <div
-      class="admin-uploads-container"
+      class="admin-uploads-library-container"
       {{didInsert this.setupInfiniteScroll}}
       {{willDestroy this.teardownInfiniteScroll}}
     >
       <div class="admin-controls">
         <div class="control-unit">
-          <label>{{i18n "js.uploads_browser.user_label"}}</label>
+          <label>{{i18n "js.uploads_library.user_label"}}</label>
           <userChooser
             @value={{@username}}
             @onChange={{this.updateUsername}}
             @options={{hash
               maximum=1
-              filterPlaceholder="js.uploads_browser.user_search_placeholder"
+              filterPlaceholder="js.uploads_library.user_search_placeholder"
             }}
           />
         </div>
 
         <div class="control-unit">
-          <label>{{i18n "js.uploads_browser.from_label"}}</label>
+          <label>{{i18n "js.uploads_library.from_label"}}</label>
           <datePicker @value={{@fromDate}} @onChange={{this.updateFromDate}} />
         </div>
 
         <div class="control-unit">
-          <label>{{i18n "js.uploads_browser.to_label"}}</label>
+          <label>{{i18n "js.uploads_library.to_label"}}</label>
           <datePicker @value={{@toDate}} @onChange={{this.updateToDate}} />
         </div>
 
@@ -120,7 +124,7 @@ export default class AdminUploadsManager extends Component {
             <label>&nbsp;</label>
             <dButton
               @action={{@onClear}}
-              @label="js.uploads_browser.clear_filters"
+              @label="js.uploads_library.clear_filters"
               @icon="times"
               class="btn-default"
             />
@@ -142,11 +146,23 @@ export default class AdminUploadsManager extends Component {
               {{/if}}
             </a>
             <div class="file-name" title={{upload.name}}>{{upload.name}}</div>
+            {{#if upload.username}}
+              <div class="upload-user">
+                <a
+                  href="/u/{{upload.username}}"
+                  class="user-profile-link"
+                  {{on "click" this.stopPropagation}}
+                >
+                  @{{upload.username}}
+                </a>
+              </div>
+            {{/if}}
+
           </div>
         {{else}}
           {{#unless @loading}}
             <div class="no-results">
-              {{i18n "js.uploads_browser.no_results"}}
+              {{i18n "js.uploads_library.no_results"}}
             </div>
           {{/unless}}
         {{/each}}

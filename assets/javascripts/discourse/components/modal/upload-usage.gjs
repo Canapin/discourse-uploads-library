@@ -5,7 +5,7 @@ import { i18n } from "discourse-i18n";
 
 <template>
   <dModal
-    @title={{i18n "js.uploads_browser.usage_modal_title"}}
+    @title={{i18n "js.uploads_library.usage_modal_title"}}
     @closeModal={{@closeModal}}
     class="upload-usage-modal"
   >
@@ -14,9 +14,9 @@ import { i18n } from "discourse-i18n";
         {{#each @model.posts as |post|}}
           <li>
             {{#if post.is_pm}}
-              {{dIcon "envelope" title=(i18n "js.uploads_browser.is_pm")}}
+              {{dIcon "envelope" title=(i18n "js.uploads_library.is_pm")}}
             {{else}}
-              {{dIcon "comment" title=(i18n "js.uploads_browser.is_post")}}
+              {{dIcon "comment" title=(i18n "js.uploads_library.is_post")}}
             {{/if}}
             <a href={{post.url}} target="_blank" rel="noopener noreferrer">
               {{post.topic_title}}
@@ -24,7 +24,7 @@ import { i18n } from "discourse-i18n";
             </a>
           </li>
         {{else}}
-          <p>{{i18n "js.uploads_browser.no_posts_found"}}</p>
+          <p>{{i18n "js.uploads_library.no_posts_found"}}</p>
         {{/each}}
       </ul>
     </:body>
