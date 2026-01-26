@@ -1,7 +1,7 @@
 en:
   js:
-    uploads_browser:
-      title: "Latest Uploads"
+    uploads_library:
+      title: "Uploads Library"
       user_label: "User:"
       user_search_placeholder: "Search for a user..."
       from_label: "From:"

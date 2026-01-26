@@ -1,4 +1,4 @@
-# uploads-browser
+# discourse-uploads-library
 
 **⚠️ 99% AI-Generated. Don't use this plugin you can't review the code yourself and decide if it's safe to use.**
 

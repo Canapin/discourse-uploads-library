@@ -1,4 +1,4 @@
 plugins:
-  uploads_browser_enabled:
+  uploads_library_enabled:
     default: true
     client: true

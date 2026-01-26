@@ -1,4 +1,4 @@
-.admin-uploads-container {
+.admin-uploads-library-container {
   padding: 10px;
 
   .admin-controls {
@@ -90,6 +90,15 @@
       overflow: hidden;
       text-overflow: ellipsis;
       padding: 0 4px;
+    }
+
+    .upload-user {
+      a {
+        &:hover,
+        &:focus {
+          text-decoration: underline;
+        }
+      }
     }
   }
 

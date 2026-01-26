@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class UploadsBrowserController < ApplicationController
-  requires_plugin "uploads-browser"
+class UploadsLibraryController < ApplicationController
+  requires_plugin "discourse-uploads-library"
   skip_before_action :check_xhr, :verify_authenticity_token
 
   def index
@@ -23,7 +23,7 @@ class UploadsBrowserController < ApplicationController
 
     limit = 30
     offset = params[:offset].to_i || 0
-    uploads = uploads.offset(offset).limit(limit).includes(posts: :topic)
+    uploads = uploads.offset(offset).limit(limit).includes(:user, posts: :topic)
 
     data =
       uploads.map do |u|
@@ -48,6 +48,8 @@ class UploadsBrowserController < ApplicationController
           name: u.original_filename,
           is_image: is_image,
           posts: posts_data,
+          username: u.user&.username,
+          user_id: u.user_id,
         }
       end
 
