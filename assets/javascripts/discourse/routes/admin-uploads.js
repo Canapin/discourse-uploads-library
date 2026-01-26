@@ -1,7 +1,16 @@
-import Route from "@ember/routing/route";
+import { service } from "@ember/service";
+import DiscourseRoute from "discourse/routes/discourse";
 import { ajax } from "discourse/lib/ajax";
 
-export default class AdminUploadsRoute extends Route {
+export default class AdminUploadsRoute extends DiscourseRoute {
+  @service currentUser;
+  @service router;
+
+  beforeModel() {
+    if (!this.currentUser?.admin) {
+      return this.router.transitionTo("discovery.latest");
+    }
+  }
   queryParams = {
     username: { refreshModel: true },
     from_date: { refreshModel: true },

@@ -102,8 +102,9 @@ export default class AdminUploadsManager extends Component {
             @value={{@username}}
             @onChange={{this.updateUsername}}
             @options={{hash
-              maximum=1
-              filterPlaceholder="js.uploads_library.user_search_placeholder"
+              excludeCurrentUser=false
+              disabled=@field.isDisabled
+              allowEmails=true
             }}
           />
         </div>
