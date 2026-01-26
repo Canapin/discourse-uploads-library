@@ -1,5 +1,5 @@
 export default function () {
   this.route("admin", function () {
-    this.route("uploads", { path: "/uploads" });
+    this.route("uploads");
   });
 }

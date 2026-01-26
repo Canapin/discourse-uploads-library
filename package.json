@@ -7,6 +7,7 @@
     "discourse": "npm:@discourse/types@2026.1.0-a5a0839",
     "ember-template-lint": "7.9.3",
     "eslint": "9.39.2",
+    "lefthook": "^2.0.15",
     "prettier": "3.8.0",
     "stylelint": "17.0.0"
   },

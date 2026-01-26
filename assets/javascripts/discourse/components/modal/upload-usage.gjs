@@ -1,10 +1,9 @@
-import Component from "@glimmer/component";
-import dModal from "discourse/components/d-modal";
-import dIcon from "discourse-common/helpers/d-icon";
+import DModal from "discourse/components/d-modal";
+import dIcon from "discourse/helpers/d-icon";
 import { i18n } from "discourse-i18n";
 
 <template>
-  <dModal
+  <DModal
     @title={{i18n "js.uploads_library.usage_modal_title"}}
     @closeModal={{@closeModal}}
     class="upload-usage-modal"
@@ -28,5 +27,5 @@ import { i18n } from "discourse-i18n";
         {{/each}}
       </ul>
     </:body>
-  </dModal>
+  </DModal>
 </template>

@@ -1,16 +1,15 @@
 import Component from "@glimmer/component";
-import { action } from "@ember/object";
+import { fn, hash } from "@ember/helper";
 import { on } from "@ember/modifier";
-import { fn } from "@ember/helper";
-import { i18n } from "discourse-i18n";
-import { hash } from "@ember/helper";
-import dButton from "discourse/components/d-button";
-import datePicker from "discourse/components/date-picker";
-import userChooser from "select-kit/components/email-group-user-chooser";
-import dIcon from "discourse-common/helpers/d-icon";
+import { action } from "@ember/object";
 import didInsert from "@ember/render-modifiers/modifiers/did-insert";
 import willDestroy from "@ember/render-modifiers/modifiers/will-destroy";
 import { service } from "@ember/service";
+import DButton from "discourse/components/d-button";
+import DatePicker from "discourse/components/date-picker";
+import dIcon from "discourse/helpers/d-icon";
+import { i18n } from "discourse-i18n";
+import UserChooser from "select-kit/components/email-group-user-chooser";
 import UploadUsageModal from "discourse/plugins/discourse-uploads-library/discourse/components/modal/upload-usage";
 
 export default class AdminUploadsManager extends Component {
@@ -99,7 +98,7 @@ export default class AdminUploadsManager extends Component {
       <div class="admin-controls">
         <div class="control-unit">
           <label>{{i18n "js.uploads_library.user_label"}}</label>
-          <userChooser
+          <UserChooser
             @value={{@username}}
             @onChange={{this.updateUsername}}
             @options={{hash
@@ -111,18 +110,18 @@ export default class AdminUploadsManager extends Component {
 
         <div class="control-unit">
           <label>{{i18n "js.uploads_library.from_label"}}</label>
-          <datePicker @value={{@fromDate}} @onChange={{this.updateFromDate}} />
+          <DatePicker @value={{@fromDate}} @onChange={{this.updateFromDate}} />
         </div>
 
         <div class="control-unit">
           <label>{{i18n "js.uploads_library.to_label"}}</label>
-          <datePicker @value={{@toDate}} @onChange={{this.updateToDate}} />
+          <DatePicker @value={{@toDate}} @onChange={{this.updateToDate}} />
         </div>
 
         {{#if this.showClearButton}}
           <div class="control-unit">
             <label>&nbsp;</label>
-            <dButton
+            <DButton
               @action={{@onClear}}
               @label="js.uploads_library.clear_filters"
               @icon="times"
