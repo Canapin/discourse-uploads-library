@@ -1,5 +1,7 @@
 .admin-uploads-library-container {
   padding: 10px;
+  box-sizing: border-box;
+  width: 100%;
 
   .admin-controls {
     display: flex;
@@ -11,8 +13,16 @@
     border: 1px solid var(--primary-low);
     border-radius: 8px;
     align-items: baseline;
+    box-sizing: border-box;
 
     .control-unit {
+      flex: 1 1 100%;
+      box-sizing: border-box;
+
+      @media screen and (width >= 768px) {
+        flex: 0 1 auto;
+      }
+
       label {
         font-weight: bold;
         margin-bottom: 5px;
@@ -28,57 +38,78 @@
   }
 
   .uploads-gallery {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    width: 100%;
+    align-items: stretch;
+    box-sizing: border-box;
   }
 
   .upload-card {
-    cursor: pointer;
-    width: 140px;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    appearance: none;
+    text-align: inherit;
     background: var(--secondary);
-    padding: 10px;
+    padding: 12px;
+    border-radius: 6px;
     border: 1px solid var(--primary-low);
-    border-radius: 4px;
-    transition:
-      transform 0.1s ease-in-out,
-      box-shadow 0.1s ease-in-out;
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-dropdown);
-      border-color: var(--tertiary);
-    }
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
 
     .preview-link {
       display: block;
-      height: 120px;
       width: 100%;
-      background: var(--primary-very-low);
-      border-radius: 2px;
+      border-radius: 4px;
       overflow: hidden;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
+      padding: 0;
+      background: var(--primary-very-low);
+      border: 1px solid transparent;
+      transition:
+        transform 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out,
+        border-color 0.15s;
+
+      &:hover,
+      &:focus {
+        outline: none;
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-dropdown);
+        border-color: var(--tertiary);
+        cursor: pointer;
+      }
+
+      .image-container {
+        height: 160px;
+        width: 100%;
+        display: block;
+      }
 
       .upload-thumb {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        display: block;
       }
 
       .file-placeholder {
-        height: 100%;
+        height: 160px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         color: var(--primary-medium);
+        background: var(--primary-low);
 
         .extension {
           font-weight: bold;
-          font-size: 14px;
+          font-size: 1.1em;
           text-transform: uppercase;
+          padding: 0 10px;
+          word-break: break-all;
         }
       }
     }
@@ -86,29 +117,42 @@
     .file-name {
       font-size: var(--font-down-1);
       color: var(--primary);
+      font-weight: 500;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      padding: 0 4px;
+      padding: 5px;
+      box-sizing: border-box;
     }
 
     .upload-user {
-      a {
-        &:hover,
-        &:focus {
-          text-decoration: underline;
-        }
+      color: var(--tertiary);
+      margin-top: auto;
+
+      &:hover,
+      &:focus {
+        color: var(--tertiary-hover);
       }
     }
   }
 
   .no-results {
-    padding: 60px;
+    grid-column: 1 / -1;
+    padding: 80px 20px;
     color: var(--primary-medium);
     text-align: center;
-    width: 100%;
     font-style: italic;
-    border: 1px dashed var(--primary-low);
+    border: 2px dashed var(--primary-low);
+    border-radius: 8px;
+    background: var(--primary-very-low);
+  }
+
+  .loading-indicator {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: var(--tertiary);
+    font-size: 2em;
   }
 }
 
@@ -116,18 +160,31 @@
   .upload-usage-list {
     list-style: none;
     padding: 0;
+    margin: 15px 0 0 0;
 
     li {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--primary-low);
 
-      .d-icon-envelope {
-        color: var(--tertiary);
+      &:last-child {
+        border-bottom: none;
       }
 
-      .d-icon-comment {
+      .d-icon {
+        flex-shrink: 0;
+      }
+
+      a {
+        word-break: break-word;
         color: var(--tertiary);
+
+        &:hover,
+        &:focus {
+          color: var(--tertiary-hover);
+        }
       }
     }
   }

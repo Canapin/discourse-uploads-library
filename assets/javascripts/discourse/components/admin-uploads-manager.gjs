@@ -1,16 +1,15 @@
 import Component from "@glimmer/component";
-import { action } from "@ember/object";
+import { fn, hash } from "@ember/helper";
 import { on } from "@ember/modifier";
-import { fn } from "@ember/helper";
-import { i18n } from "discourse-i18n";
-import { hash } from "@ember/helper";
-import dButton from "discourse/components/d-button";
-import datePicker from "discourse/components/date-picker";
-import userChooser from "select-kit/components/email-group-user-chooser";
-import dIcon from "discourse-common/helpers/d-icon";
+import { action } from "@ember/object";
 import didInsert from "@ember/render-modifiers/modifiers/did-insert";
 import willDestroy from "@ember/render-modifiers/modifiers/will-destroy";
 import { service } from "@ember/service";
+import DButton from "discourse/components/d-button";
+import DatePicker from "discourse/components/date-picker";
+import dIcon from "discourse/helpers/d-icon";
+import { i18n } from "discourse-i18n";
+import UserChooser from "select-kit/components/email-group-user-chooser";
 import UploadUsageModal from "discourse/plugins/discourse-uploads-library/discourse/components/modal/upload-usage";
 
 export default class AdminUploadsManager extends Component {
@@ -19,15 +18,9 @@ export default class AdminUploadsManager extends Component {
   @action
   showUsage(upload, event) {
     event.preventDefault();
-
     this.modal.show(UploadUsageModal, {
       model: { posts: upload.posts || [] },
     });
-  }
-
-  @action
-  stopPropagation(event) {
-    event.stopPropagation();
   }
 
   get showClearButton() {
@@ -78,6 +71,10 @@ export default class AdminUploadsManager extends Component {
 
   @action
   checkNeedsMoreContent() {
+    if (this.isDestroyed || this.isDestroying) {
+      return;
+    }
+
     if (document.documentElement.scrollHeight <= window.innerHeight) {
       if (this.args.canLoadMore && !this.args.loading) {
         const promise = this.args.loadMore();
@@ -99,30 +96,27 @@ export default class AdminUploadsManager extends Component {
       <div class="admin-controls">
         <div class="control-unit">
           <label>{{i18n "js.uploads_library.user_label"}}</label>
-          <userChooser
+          <UserChooser
             @value={{@username}}
             @onChange={{this.updateUsername}}
-            @options={{hash
-              maximum=1
-              filterPlaceholder="js.uploads_library.user_search_placeholder"
-            }}
+            @options={{hash excludeCurrentUser=false allowEmails=true}}
           />
         </div>
 
         <div class="control-unit">
           <label>{{i18n "js.uploads_library.from_label"}}</label>
-          <datePicker @value={{@fromDate}} @onChange={{this.updateFromDate}} />
+          <DatePicker @value={{@fromDate}} @onChange={{this.updateFromDate}} />
         </div>
 
         <div class="control-unit">
           <label>{{i18n "js.uploads_library.to_label"}}</label>
-          <datePicker @value={{@toDate}} @onChange={{this.updateToDate}} />
+          <DatePicker @value={{@toDate}} @onChange={{this.updateToDate}} />
         </div>
 
         {{#if this.showClearButton}}
           <div class="control-unit">
             <label>&nbsp;</label>
-            <dButton
+            <DButton
               @action={{@onClear}}
               @label="js.uploads_library.clear_filters"
               @icon="times"
@@ -134,30 +128,36 @@ export default class AdminUploadsManager extends Component {
 
       <div class="uploads-gallery">
         {{#each @uploads as |upload|}}
-          <div class="upload-card" {{on "click" (fn this.showUsage upload)}}>
-            <a href={{upload.original_url}} class="preview-link">
-              {{#if upload.is_image}}
-                <img src={{upload.url}} class="upload-thumb" loading="lazy" />
-              {{else}}
-                <div class="file-placeholder">
-                  {{dIcon "file"}}
-                  <span class="extension">{{upload.name}}</span>
-                </div>
-              {{/if}}
+          <div class="upload-card">
+            <a
+              href={{upload.url}}
+              class="preview-link"
+              {{on "click" (fn this.showUsage upload)}}
+            >
+              <span class="image-container">
+                {{#if upload.is_image}}
+                  <img
+                    src={{upload.thumbnail_url}}
+                    class="upload-thumb"
+                    loading="lazy"
+                    alt={{upload.name}}
+                  />
+                {{else}}
+                  <span class="file-placeholder">
+                    {{dIcon "file"}}
+                    <span class="extension">{{upload.name}}</span>
+                  </span>
+                {{/if}}
+              </span>
+              <div class="file-name" title={{upload.name}}>{{upload.name}}</div>
             </a>
-            <div class="file-name" title={{upload.name}}>{{upload.name}}</div>
             {{#if upload.username}}
-              <div class="upload-user">
-                <a
-                  href="/u/{{upload.username}}"
-                  class="user-profile-link"
-                  {{on "click" this.stopPropagation}}
-                >
+              <a class="upload-user" href="/u/{{upload.username}}">
+                <span class="user-profile-link">
                   @{{upload.username}}
-                </a>
-              </div>
+                </span>
+              </a>
             {{/if}}
-
           </div>
         {{else}}
           {{#unless @loading}}
@@ -169,10 +169,7 @@ export default class AdminUploadsManager extends Component {
       </div>
 
       {{#if @loading}}
-        <div
-          class="loading-indicator"
-          style="text-align: center; padding: 20px;"
-        >
+        <div class="loading-indicator">
           {{dIcon "spinner" class="fa-spin"}}
         </div>
       {{/if}}

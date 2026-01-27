@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # name: discourse-uploads-library
 # about: Browse user uploads from the admin panel.
 # version: 1.0
