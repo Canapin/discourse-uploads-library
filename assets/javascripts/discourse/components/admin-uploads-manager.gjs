@@ -99,7 +99,11 @@ export default class AdminUploadsManager extends Component {
           <UserChooser
             @value={{@username}}
             @onChange={{this.updateUsername}}
-            @options={{hash excludeCurrentUser=false allowEmails=true}}
+            @options={{hash
+              maximum=1
+              excludeCurrentUser=false
+              allowEmails=true
+            }}
           />
         </div>
 
